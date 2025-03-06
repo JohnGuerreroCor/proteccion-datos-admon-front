@@ -1,4 +1,4 @@
-# Plantilla Front - Módulos Administradores
+# Módulos Protección Datos Admon Front
 
 ![Logo de la USCO](https://www.usco.edu.co/imagen-institucional/logo/universidad-surcolombiana.png)
 
@@ -18,7 +18,7 @@ Esta plantilla ha sido desarrollada utilizando las siguientes tecnologías:
 
 ## Descripción
 
-Esta plantilla está orientada para la creación de módulos administrativos, permitiendo una fácil integración y personalización.
+Sistema Integral de Gestión de Autorizaciones para el Tratamiento de Datos Personales
 
 ## Instalación y Uso
 
