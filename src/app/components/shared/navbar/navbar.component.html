@@ -1,0 +1,281 @@
+<mat-sidenav-container class="sidenav-container" id="page-container">
+  <mat-sidenav
+    #drawer
+    style="width: 281px"
+    *ngIf="navbarHiddenService.visibleSideBar"
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+    #target
+  >
+    <mat-toolbar>
+      <span class="logo-lg"
+        ><b
+          ><img
+            class="img-fluid"
+            src="assets/universidad-surcolombiana-multicampos-white.png" /></b
+      ></span>
+    </mat-toolbar>
+    <mat-nav-list style="padding-bottom: 0">
+      <a class="list" mat-list-item [routerLink]="['/inicio']">
+        <h6 class="pl-2 item-principal"><i class="fas fa-home"></i> Inicio</h6>
+      </a>
+    </mat-nav-list>
+    <mat-accordion>
+      <mat-expansion-panel
+        class="sidenav"
+        style="width: 280px"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel1')"
+        [expanded]="panelAbierto === 'panel1'"
+      >
+        <mat-expansion-panel-header class="disable_ripple specific-class">
+          <mat-panel-title>
+            <h6 class="text-white mt-2">
+              <i class="fa-solid fa-folder"></i> Item desplegable
+            </h6>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list style="padding: 0">
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 1
+            </h6>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 2
+            </h6>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 3
+            </h6>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-accordion>
+      <mat-expansion-panel
+        class="sidenav"
+        style="width: 280px"
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+        (opened)="togglePanel('panel2')"
+        [expanded]="panelAbierto === 'panel2'"
+      >
+        <mat-expansion-panel-header class="disable_ripple specific-class">
+          <mat-panel-title>
+            <h6 class="text-white mt-2">
+              <i class="fa-solid fa-folder"></i> Item desplegable
+            </h6>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list style="padding: 0">
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 1
+            </h6>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 2
+            </h6>
+          </a>
+          <a
+            class="pl-5 sidenav-accordion"
+            mat-list-item
+            style="width: 300px"
+            [routerLink]="['/inicio']"
+            routerLinkActive="router-link-active"
+          >
+            <h6 class="text-white">
+              <i class="fa-solid fa-folder-open"></i> Sub Item 3
+            </h6>
+          </a>
+        </mat-nav-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <mat-nav-list style="padding: 0">
+      <a class="list" mat-list-item [routerLink]="['/inicio']">
+        <h6 class="pl-2 item-principal">
+          <i class="fa-solid fa-check-to-slot"></i> Item uno
+        </h6>
+      </a>
+      <a class="list" mat-list-item [routerLink]="['/inicio']">
+        <h6 class="pl-2 item-principal">
+          <i class="fa-solid fa-chart-pie"></i> Item dos
+        </h6>
+      </a>
+      <a
+        class="list"
+        mat-list-item
+        [routerLink]="['/inicio']"
+        routerLinkActive="router-link-active"
+      >
+        <h6 class="pl-2 item-principal">
+          <i class="fa-solid fa-chart-simple"></i> Item tres
+        </h6>
+      </a>
+    </mat-nav-list>
+    <div class="text-center footer-tabs mb-2">
+      <div class="accordion cursor-select" id="accordionExample">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+              <small
+                class="text-white font-usco-default font-weight-bold text-center"
+                style="font-size: 14px"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+                >© {{ anio | date : "yyyy" }} CITCD - Versión 1</small
+              >
+            </h2>
+          </div>
+          <div
+            id="collapseOne"
+            class="collapse"
+            aria-labelledby="headingOne"
+            data-parent="#accordionExample"
+          >
+            <div class="card-body">
+              <small class="text-white"
+                >HORA INICIO SESIÓN: <br />
+                {{ horaInicioSesion | date : "dd-MM-yyyy, h:mm a" }}
+              </small>
+              <hr class="dashed" />
+              <small class="text-white">
+                HORA FINALIZACIÓN: <br />
+                {{ horaFinSesion | date : "dd-MM-yyyy, h:mm a" }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <hr class="dashed" />
+      <small class="text-white"
+        >HORA INICIO SESIÓN: <br />
+        {{ horaInicioSesion | date : "dd-MM-yyyy, h:mm a" }}
+      </small>
+      <hr class="dashed" />
+      <small class="text-white">
+        HORA FINALIZACIÓN: <br />
+        {{ horaFinSesion | date : "dd-MM-yyyy, h:mm a" }}
+      </small>
+      <br /><br />
+      <small class="text-white font-usco-default font-weight-bold text-center"
+        >© {{ today | date : "yyyy" }} CITCD - Versión 2</small
+      > -->
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content (validarToken)="receiveMessage($event)">
+    <mat-toolbar *ngIf="rol != ''" class="toolbar">
+      <button
+        type="button"
+        class="btn btn-usco-vt m-1 text-white"
+        aria-label="Toggle sidenav"
+        (click)="toggle()"
+        *ngIf="isHandset$"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <h6 class="font-weight-bold">Módulo Plantilla Administrador</h6>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-white"
+            id="navbarDropdownMenu"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <img
+              *ngIf="foto.url != ''"
+              src="{{ foto.url }}"
+              width="40"
+              height="40"
+              class="rounded-circle d-inline-block align-top"
+              alt="avatar image"
+            />
+            <img
+              *ngIf="foto.url == ''"
+              src="assets/precarga-usco-dos.gif"
+              width="40"
+              height="40"
+              class="rounded-circle d-inline-block align-top"
+              alt="avatar image"
+            />
+            {{ nombre | titlecase }} {{ apellido | titlecase }}</a
+          >
+          <div
+            class="dropdown-menu dropdown-menu-right dropdown-info mt-2"
+            aria-labelledby="navbarDropdownMenu"
+            id="gradiante"
+          >
+            <div class="text-center">
+              <a class="dropdown-info"
+                ><img
+                  src="{{ foto.url }}"
+                  class="rounded-circle z-depth-0 border-usco-white"
+                  alt="avatar image"
+                  height="100"
+              /></a>
+              <a class="dropdown-item font-usco-default"
+                ><b> {{ nombre | titlecase }} {{ apellido | titlecase }}</b></a
+              >
+              <a class="dropdown-item font-usco-default">{{
+                uaa | titlecase
+              }}</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown"
+                ><button
+                  (click)="logout()"
+                  class="btn btn-usco-vt"
+                  type="button"
+                >
+                  Cerrar Sesión
+                </button></a
+              >
+            </div>
+          </div>
+        </li>
+      </ul>
+    </mat-toolbar>
+    <ng-content (validarToken)="receiveMessage($event)"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,145 @@
+<div class="content">
+  <div class="card-login">
+    <div class="card-header bg-usco-vt header-usco-card">
+      <div class="row">
+        <div class="col">
+          <img
+            title="USCO"
+            mat-card-image
+            src="assets/universidad-surcolombiana-multicampos-white.png"
+            class="img-fluid"
+          />
+        </div>
+      </div>
+      <hr class="punteada" />
+      <div class="row">
+        <div class="col">
+          <small class="font-weight-bold text-white">
+            PLANTILLA ADMINISTRADOR
+          </small>
+        </div>
+      </div>
+    </div>
+    <div class="card-body text-center font-usco-gr">
+      <div class="container">
+        <form [formGroup]="formLogin">
+          <div class="row mt-3">
+            <div class="col">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <span matPrefix class="p-3"
+                  ><i class="fa-solid fa-user"></i
+                ></span>
+                <mat-label>Usuario</mat-label>
+                <input
+                  matInput
+                  formControlName="usuario"
+                  name="username"
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <span matPrefix class="p-3"
+                  ><i class="fa-solid fa-lock"></i
+                ></span>
+                <mat-label>Primera Contraseña</mat-label>
+                <input
+                  matInput
+                  [type]="hide ? 'password' : 'text'"
+                  formControlName="contraseniaUno"
+                  type="password"
+                  name="password"
+                  placeholder="Digite la primera clave"
+                  autocomplete="off"
+                />
+                <!-- BOTON DE ACCÍON PARA MOSTRAR LA CONTRASEÑA NO RECOMENDADO PARA MÓDULOS ADMINISTRADOR POR PÓLITICAS DE SEGURIDAD -->
+                <!-- <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+                  <mat-icon>{{
+                    hide ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                </button> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <span matPrefix class="p-3"
+                  ><i class="fa-solid fa-lock"></i
+                ></span>
+                <mat-label>Segunda Contraseña</mat-label>
+                <input
+                  matInput
+                  [type]="ver ? 'password' : 'text'"
+                  formControlName="contraseniaDos"
+                  type="password"
+                  name="clave2"
+                  placeholder="Digite la segunda clave"
+                  autocomplete="off"
+                />
+                <!-- BOTON DE ACCÍON PARA MOSTRAR LA CONTRASEÑA NO RECOMENDADO PARA MÓDULOS ADMINISTRADOR POR PÓLITICAS DE SEGURIDAD -->
+                <!-- <button mat-icon-button matSuffix (click)="ver = !ver" [attr.aria-label]="'ver password'"
+                  [attr.aria-pressed]="ver">
+                  <mat-icon>{{
+                    ver ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                </button> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <button
+                (click)="login()"
+                type="submit"
+                class="btn btn-usco-vt"
+                [disabled]="!formLogin.valid"
+              >
+                Ingresar
+                <span
+                  *ngIf="cargando"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-2">
+              <a href="https://www.usco.edu.co/cambio_clave/" target="_blank"
+                ><small class="font-usco-vt font-weight-bold"
+                  >¿Olvidó su primera contraseña?</small
+                ></a
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mb-3">
+              <a
+                href="https://www.usco.edu.co/imagen-institucional/"
+                target="_blank"
+              >
+                <small class="font-usco-vt font-weight-bold cursor-select"
+                  ><i class="fa-solid fa-book"></i> Instructivo</small
+                ></a
+              >
+            </div>
+          </div>
+          <div>
+            <small
+              ><b class="version"
+                >© {{ today | date : "yyyy" }} CITCD - Versión 1 Construcción
+                1.0</b
+              ></small
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
