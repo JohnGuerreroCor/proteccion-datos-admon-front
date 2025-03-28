@@ -6,6 +6,7 @@ import { TokenComponent } from './components/token/token.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { NormativaComponent } from './components/marco-normativo/normativa/normativa.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -16,6 +17,11 @@ const routes: Routes = [
   { path: 'token', component: TokenComponent },
 
   { path: 'inicio', component: InicioComponent, canActivate: [AuthGuard] },
+  {
+    path: 'marco-normativo',
+    component: NormativaComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: '**', redirectTo: 'acceso-denegado' },
 ];

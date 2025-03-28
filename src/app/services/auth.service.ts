@@ -137,6 +137,7 @@ export class AuthService {
     this.usuario.roles = datos.authorities;
     this.usuario.personaNombre = datos.personaNombre;
     this.usuario.personaApellido = datos.personaApellido;
+    this.usuario.uaaCodigo = datos.uaaCodigo;
     this.usuario.uaaNombre = datos.uaaNombre;
     this.usuario.horaInicioSesion = datos.horaInicioSesion;
 

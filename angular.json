@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/proteccion-datos-front",
+            "outputPath": "dist/proteccion-datos-admon-front",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "proteccion-datos-front:build:production"
+              "browserTarget": "proteccion-datos-admon-front:build:production"
             },
             "development": {
-              "browserTarget": "proteccion-datos-front:build:development"
+              "browserTarget": "proteccion-datos-admon-front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "proteccion-datos-front:build"
+            "browserTarget": "proteccion-datos-admon-front:build"
           }
         },
         "test": {

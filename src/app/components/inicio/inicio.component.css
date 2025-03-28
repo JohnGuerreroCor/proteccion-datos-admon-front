@@ -20,19 +20,17 @@
   height: 65px !important;
 }
 
-fieldset.scheduler-border {
-  border: 1px groove #ddd !important;
-  padding: 0 1.4em 1.4em 1.4em !important;
-  margin: 0 0 1.5em 0 !important;
-  -webkit-box-shadow: 0px 0px 0px 0px #000;
-  box-shadow: 0px 0px 0px 0px #000;
+.card-usco-menu:hover .card-header {
+  background-color: #8F141B; /* Cambia esto al color que desees */
+  color: #DFD4A6; /* Color del texto */
 }
 
-legend.scheduler-border {
-  font-size: 1.2em !important;
-  font-weight: bold !important;
-  text-align: left !important;
-  width: auto;
-  padding: 0 10px;
-  border-bottom: none;
+.card-usco-menu i {
+  color: #4d626c; /* Cambia esto al color que desees */
 }
+
+
+.card-usco-menu:hover i {
+  color: #8F141B; /* Cambia esto al color que desees */
+}
+

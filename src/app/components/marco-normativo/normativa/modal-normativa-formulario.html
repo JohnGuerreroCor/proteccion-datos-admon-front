@@ -1,0 +1,198 @@
+<h2 mat-dialog-title class="text-white bg-usco-vt-d6">
+  <i class="fa-solid fa-circle-info"></i> Formulario
+</h2>
+<mat-dialog-content class="pb-0">
+  <div class="row mt-4">
+    <div class="col pl-4 pr-4">
+      <form [formGroup]="formularioLey">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Tipo entidad</mat-label>
+                <mat-select formControlName="entidadTipo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoNormativaEntidadTipo"
+                    [value]="item.codigo"
+                    (click)="obtenerEntidadesPorTipo(item.codigo)"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Tipo entidad</mat-label>
+                <mat-select formControlName="entidad">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoNormativaEntidad"
+                    [value]="item.codigo"
+                    (click)="obtenerNormativaExpidePorEntidad(item.codigo)"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Tipo de norma</mat-label>
+                <mat-select formControlName="normativaExpideCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoNormativaExpide"
+                    [value]="item.codigo"
+                    >{{item.normativaTipoNombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-sm-2">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Número de norma</mat-label>
+                <input matInput formControlName="numero" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Nombre de la norma</mat-label>
+                <input matInput formControlName="nombre" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha de expedicion</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker1"
+                  formControlName="fechaCreacion"
+                />
+                <mat-hint>Mes/Día/Año</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha derogación</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker2"
+                  formControlName="fechaVigencia"
+                />
+                <mat-hint>Mes/Día/Año</mat-hint>
+                <mat-datepicker-toggle
+                  matIconSuffix
+                  [for]="picker2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-sm-2">
+            <div class="form-group">
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Medio</mat-label>
+                <mat-select formControlName="normativaMedioCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoNormativaMedio"
+                    [value]="item.codigo"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Enlace de la norma</mat-label>
+                <input matInput formControlName="url" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <label class="file example-full-width">
+              <input
+                type="file"
+                accept="application/pdf"
+                aria-label="File browser example"
+                (change)="change($event)"
+                formControlName="anexo"
+              />
+              <span class="file-custom">{{ nombreArchivo }}</span>
+            </label>
+          </div>
+          <div class="col-sm-4">
+            <section class="example-section">
+              <small>Deroga:</small>
+              <mat-radio-group formControlName="deroga">
+                <mat-radio-button class="example-margin" value="1"
+                  >Si</mat-radio-button
+                >
+                <mat-radio-button class="example-margin" value="2"
+                  >No</mat-radio-button
+                >
+              </mat-radio-group>
+            </section>
+          </div>
+        </div>
+        <div class="row mt-3 mb-3">
+          <div class="col">
+            <mat-form-field class="example-full-width" appearance="outline">
+              <mat-label>Descripción</mat-label>
+              <textarea matInput formControlName="observacion"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="pb-3">
+  <button class="btn btn-warning mr-2" mat-dialog-close>
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button class="btn btn-success" (click)="generarLey()">
+    <i class="fa-solid fa-floppy-disk"></i> Guardar
+  </button>
+</mat-dialog-actions>

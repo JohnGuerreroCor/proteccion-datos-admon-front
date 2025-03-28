@@ -1,10 +1,7 @@
 export const environment = {
+  production: true,
   //DESCOMENTAR LOCAL
-  production: false,
-  //DESCOMENTAR PRODUCCIÓN
-  //production: true,
-  //DESCOMENTAR LOCAL
-  URL_BACKEND: 'http://localhost:8080/plantilla_admon-1.0',
+  URL_BACKEND: 'http://localhost:8080/proteccion_datos_admon',
   //DESCOMENTAR PRODUCCIÓN
   //URL_BACKEND: 'https://sanagustin.usco.edu.co/',
   //DESCOMENTAR SERVIDOR PRUEBAS

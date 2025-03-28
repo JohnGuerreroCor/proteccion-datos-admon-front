@@ -1,32 +1,52 @@
 <app-navbar>
-  <div class="container mt-3 text-center">
-    <div class="row">
-      <div class="col">
-        <div class="row text-center" style="margin-top: 5%; opacity: 0.6">
-          <div class="col">
-            <img
-              src="assets/screwdriver-wrench-solid.png"
-              alt="usco"
-              style="width: 200px"
-            />
-          </div>
-        </div>
-        <div class="row text-center mt-3 mb-5 pr-5 pl-5">
-          <div class="col">
-            <h5 class="font-usco-default font-usco-gr">
-              Nos complace informarte que actualmente estamos trabajando
-              arduamente para mejorar tu experiencia en nuestro sitio. Estamos
-              en pleno desarrollo y dedicados a crear un entorno en línea
-              excepcional que cumpla con todas tus necesidades y expectativas.
-            </h5>
-          </div>
-        </div>
+  <div class="container mt-4 p-5">
+    <!--  <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4" *ngFor="let link of links">
         <div
-          class="spinner-grow font-usco-gr mb-4"
-          style="width: 3rem; height: 3rem"
-          role="status"
+          class="card h-100 cursor-select card-usco-menu shadow"
+          [routerLink]="link.ruta"
+          #tooltip="matTooltip"
+          [matTooltip]="link.info"
+          matTooltipPosition="below"
         >
-          <span class="sr-only">Loading...</span>
+          <h5
+            class="card-header pt-3 text-center font-usco-vt font-weight-bold"
+          >
+            {{ link.titulo }}
+          </h5>
+          <i class="{{ link.icono }}"></i>
+        </div>
+      </div>
+    </div> -->
+    <div class="row row-cols-1 row-cols-md-2">
+      <div class="col mb-4" *ngFor="let link of links">
+        <div
+          class="card cursor-select card-usco-menu shadow rounded-2 p-0 shadow-sm mt-2 mb-3"
+          style="max-width: 540px"
+          [routerLink]="link.ruta"
+        >
+          <div class="card-header font-usco-vt ml-4 mr-4 text-center">
+            <h5 class="font-weight-bold">{{ link.titulo }}</h5>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-4 pl-4 text-center">
+              <i class="{{ link.icono }}"></i>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body mt-0 pt-1">
+                <small class="card-text">
+                  {{link.info}}
+                </small>
+                <p class="card-text text-right">
+                  <small class="text-muted"
+                    ><i class="fa-solid fa-chevron-right fa-1x"></i
+                    ><i class="fa-solid fa-chevron-right fa-1x"></i
+                    ><i class="fa-solid fa-chevron-right fa-1x"></i
+                  ></small>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
