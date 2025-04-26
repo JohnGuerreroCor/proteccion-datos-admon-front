@@ -1,0 +1,191 @@
+<app-navbar>
+  <div class="mt-4 text-center">
+    <div class="row ml-5 mr-5 mb-4">
+      <div class="col-sm-10">
+        <div
+          class="card-header-usco cursor-select p-1"
+          [routerLink]="['/inicio']"
+          routerLinkActive="router-link-active"
+        >
+          <h4 class="font-usco-default font-weight-bold">Autorización</h4>
+        </div>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-usco-vt cursor-select"
+          (click)="registrarFormulario()"
+        >
+          <i class="fa-solid fa-plus"></i> Registrar
+        </button>
+      </div>
+    </div>
+    <div class="row ml-5 mr-5 mb-4">
+      <div class="col">
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="font-usco-vt font-weight-bold"
+                >Filtros de búsqueda</mat-panel-title
+              >
+            </mat-expansion-panel-header>
+            <div class="row text-center pl-4 pr-4">
+              <div class="col">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="outline"
+                    >
+                      <input
+                        matInput
+                        type="text"
+                        (keyup)="filtrar($event)"
+                        [(ngModel)]="claves"
+                        placeholder="PALABRAS CLAVES"
+                      />
+                      <button
+                        matSuffix
+                        style="
+                          text-decoration: none;
+                          background: none;
+                          border: none;
+                        "
+                      >
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-2">
+                    <button class="btn btn-info" (click)="restaurar()">
+                      <i class="fa-solid fa-rotate-right"></i> Restaurar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="row ml-5 mr-5 mb-4">
+      <div class="col">
+        <div class="card rounded-2 p-0 shadow-sm">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <fieldset class="scheduler-border shadow-sm">
+                  <legend class="scheduler-border font-usco-vt">
+                    Formulario creación cuestionario
+                  </legend>
+                  <table
+                    mat-table
+                    [dataSource]="dataSource"
+                    class="table table-hover shadow-sm"
+                  >
+                    <ng-container matColumnDef="index">
+                      <th mat-header-cell *matHeaderCellDef>N°</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        {{ dataSource.filteredData.indexOf(element) + 1 }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="titulo">
+                      <th mat-header-cell *matHeaderCellDef>Titulo</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        {{ element.titulo }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="normativa">
+                      <th mat-header-cell *matHeaderCellDef>Normativa</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        {{ element.normativaTipoNombre }}
+                        {{ element.normativaNumero }} DE
+                        {{ element.normativaFechaCreacion | date : "yyyy" }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="version">
+                      <th mat-header-cell *matHeaderCellDef>Version</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        {{ element.version }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fecha">
+                      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        {{ element.fechaCreacion | date : "dd-MM-yyyy" }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="opciones">
+                      <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                      <td
+                        mat-cell
+                        *matCellDef="let element"
+                        class="font-sm-usco"
+                      >
+                        <button
+                          class="btn btn-dark btn-sm mr-2"
+                          [routerLink]="['/item', element.codigo]"
+                          #tooltip="matTooltip"
+                          matTooltip="Parametrizar"
+                          matTooltipPosition="above"
+                        >
+                          <i class="fa-solid fa-folder-tree"></i>
+                        </button>
+                        <button
+                          class="btn btn-info btn-sm mr-2"
+                          (click)="editarAutorizacion(element)"
+                          #tooltip="matTooltip"
+                          matTooltip="Editar"
+                          matTooltipPosition="above"
+                        >
+                          <i class="fa-solid fa-pencil fa-xs"></i>
+                        </button>
+                        <button
+                          class="btn btn-danger btn-sm mr-2"
+                          (click)="confirmarEliminado(element)"
+                          #tooltip="matTooltip"
+                          matTooltip="Borrar"
+                          matTooltipPosition="above"
+                        >
+                          <i class="fa-solid fa-trash fa-xs"></i>
+                        </button>
+                      </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                  </table>
+                  <mat-paginator
+                    [pageSizeOptions]="[10, 20, 30]"
+                    showFirstLastButtons
+                  ></mat-paginator>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-navbar>

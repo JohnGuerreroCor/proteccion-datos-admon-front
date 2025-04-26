@@ -7,6 +7,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { AuthGuard } from './guard/auth.guard';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { NormativaComponent } from './components/marco-normativo/normativa/normativa.component';
+import { SeccionComponent } from './components/seccion/seccion.component';
+import { AutorizacionComponent } from './components/autorizacion/autorizacion.component';
+import { ItemComponent } from './components/item/item.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -20,6 +23,24 @@ const routes: Routes = [
   {
     path: 'marco-normativo',
     component: NormativaComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'seccion',
+    component: SeccionComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'autorizacion',
+    component: AutorizacionComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'item/:id',
+    component: ItemComponent,
     canActivate: [AuthGuard],
   },
 

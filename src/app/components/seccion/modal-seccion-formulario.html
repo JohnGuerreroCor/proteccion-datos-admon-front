@@ -1,0 +1,58 @@
+<h2 mat-dialog-title class="text-white bg-usco-vt-d6">
+  <i class="fa-solid fa-circle-info"></i> Formulario
+</h2>
+<mat-dialog-content class="pb-0">
+  <div class="row mt-4">
+    <div class="col pl-4 pr-4">
+      <form [formGroup]="formularioLey">
+        <div class="row mt-3">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Nombre de la sección</mat-label>
+                <input matInput formControlName="nombre" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Orden</mat-label>
+                <input matInput formControlName="orden" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="seccionTipoCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoSeccionTipo"
+                    [value]="item.codigo"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="pb-3">
+  <button class="btn btn-warning mr-2" mat-dialog-close>
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button class="btn btn-success" (click)="generarSeccion()">
+    <i class="fa-solid fa-floppy-disk"></i> Guardar
+  </button>
+</mat-dialog-actions>

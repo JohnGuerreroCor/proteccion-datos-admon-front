@@ -16,13 +16,21 @@ import { DatePipe } from '@angular/common';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import localeEsCO from '@angular/common/locales/es-CO';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { CuerposColegiadosComponent } from './components/cuerpos-colegiados/cuerpos-colegiados.component';
 import {
   NormativaComponent,
   ModalNormativaFormulario,
 } from './components/marco-normativo/normativa/normativa.component';
 import { NormativaGrupoComponent } from './components/marco-normativo/normativa-grupo/normativa-grupo.component';
 import { FiltroNormativaEntidadTipoPipe } from './pipes/filtro-normativa-entidad-tipo.pipe';
+import {
+  SeccionComponent,
+  ModalSeccionFormulario,
+} from './components/seccion/seccion.component';
+import {
+  AutorizacionComponent,
+  ModalAutorizacionFormulario,
+} from './components/autorizacion/autorizacion.component';
+import { ItemComponent } from './components/item/item.component';
 
 registerLocaleData(localeEsCO, 'es-CO');
 
@@ -35,10 +43,14 @@ registerLocaleData(localeEsCO, 'es-CO');
     InicioComponent,
     NotfoundComponent,
     ModalNormativaFormulario,
-    CuerposColegiadosComponent,
     NormativaComponent,
     NormativaGrupoComponent,
     FiltroNormativaEntidadTipoPipe,
+    SeccionComponent,
+    ModalSeccionFormulario,
+    AutorizacionComponent,
+    ModalAutorizacionFormulario,
+    ItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +61,11 @@ registerLocaleData(localeEsCO, 'es-CO');
     FormsModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [ModalNormativaFormulario],
+  entryComponents: [
+    ModalNormativaFormulario,
+    ModalSeccionFormulario,
+    ModalAutorizacionFormulario,
+  ],
   providers: [
     DatePipe,
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
