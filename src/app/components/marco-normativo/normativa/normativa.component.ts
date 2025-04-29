@@ -136,11 +136,6 @@ export class NormativaComponent implements OnInit {
       });
   }
 
-  vistaNorma(element: any) {}
-  eliminarNorma(element: any) {}
-  editarNorma(element: any) {}
-  registrarFormularioDeroga(element: any) {}
-
   registrarFormulario(): void {
     this.dialogRef = this.dialog.open(ModalNormativaFormulario, {
       width: '70%',
@@ -149,15 +144,6 @@ export class NormativaComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
     });
-  }
-
-  filtrar(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   editarFormulario(element: any): void {
@@ -171,16 +157,25 @@ export class NormativaComponent implements OnInit {
     });
   }
 
+  onModalClosed() {
+    this.obtenerNormativa();
+  }
+
+  filtrar(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   botonActivo(element: Normativa): boolean {
     if (element.fechaVigencia === null) {
       return false; // Retorna verdadero si la fecha es nula
     }
     const fechaJson = new Date(element.fechaVigencia);
     return fechaJson <= this.fechaActual;
-  }
-
-  onModalClosed() {
-    this.obtenerNormativa();
   }
 
   editarNormativa(element: Normativa) {
@@ -200,7 +195,7 @@ export class NormativaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         //element.estado = 0;
-        this.actualizarLey(element);
+        this.actualizar(element);
         Swal.fire({
           icon: 'success',
           title: 'Elemento borrado.',
@@ -211,17 +206,17 @@ export class NormativaComponent implements OnInit {
     });
   }
 
-  actualizarLey(ley: Normativa) {
-    /* this.leyService.actualizarLey(ley).subscribe(
+  actualizar(ley: Normativa) {
+    this.marcoNormativoService.actualizarLey(ley).subscribe(
       (data) => {
         if (data > 0) {
-          this.obtenerListadoLey();
+          this.obtenerNormativa();
         } else {
           this.mensajeError();
         }
       },
       (err) => this.fError(err)
-    ); */
+    );
   }
 
   setStep(index: number) {
@@ -309,7 +304,7 @@ export class ModalNormativaFormulario {
   listadoNormativaExpide: NormativaExpide[] = [];
   listadoNormativaMedio: NormativaMedio[] = [];
 
-  formularioLey!: FormGroup;
+  formulario!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<ModalNormativaFormulario>,
@@ -322,7 +317,7 @@ export class ModalNormativaFormulario {
   ) {
     if (this.authService.validacionToken()) {
       this.obtenerNormativaEntidadTipo();
-      this.crearFormularioLey();
+      this.crearformulario();
       this.obtenerNormativaMedio();
       if (JSON.stringify(data) !== 'null') {
         this.editarAmplio(data.normativa);
@@ -333,8 +328,8 @@ export class ModalNormativaFormulario {
     }
   }
 
-  private crearFormularioLey(): void {
-    this.formularioLey = this.formBuilder.group({
+  private crearformulario(): void {
+    this.formulario = this.formBuilder.group({
       codigo: new FormControl(),
       entidadTipo: new FormControl(),
       entidad: new FormControl(),
@@ -388,22 +383,22 @@ export class ModalNormativaFormulario {
 
   generarLey(): void {
     let normativa: Normativa = new Normativa();
-    normativa.codigo = this.formularioLey.get('codigo')!.value;
-    normativa.numero = this.formularioLey.get('numero')!.value;
-    normativa.nombre = this.formularioLey.get('nombre')!.value;
-    normativa.normativaExpideCodigo = this.formularioLey.get(
+    normativa.codigo = this.formulario.get('codigo')!.value;
+    normativa.numero = this.formulario.get('numero')!.value;
+    normativa.nombre = this.formulario.get('nombre')!.value;
+    normativa.normativaExpideCodigo = this.formulario.get(
       'normativaExpideCodigo'
     )!.value;
-    normativa.normativaMedioCodigo = this.formularioLey.get(
+    normativa.normativaMedioCodigo = this.formulario.get(
       'normativaMedioCodigo'
     )!.value;
-    normativa.url = this.formularioLey.get('url')!.value;
-    normativa.anexo = this.formularioLey.get('anexo')!.value;
-    normativa.fechaCreacion = this.formularioLey.get('fechaCreacion')!.value;
-    normativa.fechaVigencia = this.formularioLey.get('fechaVigencia')!.value;
-    normativa.deroga = this.formularioLey.get('deroga')!.value;
-    normativa.observacion = this.formularioLey.get('observacion')!.value;
-    normativa.estado = this.formularioLey.get('estado')!.value;
+    normativa.url = this.formulario.get('url')!.value;
+    normativa.anexo = this.formulario.get('anexo')!.value;
+    normativa.fechaCreacion = this.formulario.get('fechaCreacion')!.value;
+    normativa.fechaVigencia = this.formulario.get('fechaVigencia')!.value;
+    normativa.deroga = this.formulario.get('deroga')!.value;
+    normativa.observacion = this.formulario.get('observacion')!.value;
+    normativa.estado = this.formulario.get('estado')!.value;
     console.log('FILE:: ', this.file);
 
     let file: any = this.file;
@@ -427,7 +422,7 @@ export class ModalNormativaFormulario {
         });
         this.cancelar();
         this.dialogRef.close();
-        this.crearFormularioLey();
+        this.crearformulario();
       },
       (err) => this.fError(err)
     );
@@ -457,26 +452,26 @@ export class ModalNormativaFormulario {
     this.obtenerEntidadesPorTipo(element.normativaEntidadTipoCodigo);
     this.obtenerNormativaExpidePorEntidad(element.normativaEntidadCodigo);
     this.editar = true;
-    this.formularioLey.get('codigo')!.setValue(element.codigo);
-    this.formularioLey
+    this.formulario.get('codigo')!.setValue(element.codigo);
+    this.formulario
       .get('entidadTipo')!
       .setValue(element.normativaEntidadTipoCodigo);
-    this.formularioLey.get('entidad')!.setValue(element.normativaEntidadCodigo);
-    this.formularioLey.get('numero')!.setValue(element.numero);
-    this.formularioLey.get('nombre')!.setValue(element.nombre);
-    this.formularioLey
+    this.formulario.get('entidad')!.setValue(element.normativaEntidadCodigo);
+    this.formulario.get('numero')!.setValue(element.numero);
+    this.formulario.get('nombre')!.setValue(element.nombre);
+    this.formulario
       .get('normativaExpideCodigo')!
       .setValue(element.normativaExpideCodigo);
-    this.formularioLey
+    this.formulario
       .get('normativaMedioCodigo')!
       .setValue(element.normativaMedioCodigo);
-    this.formularioLey.get('url')!.setValue(element.url);
-    this.formularioLey.get('anexo')!.setValue(element.anexo);
-    this.formularioLey.get('fechaCreacion')!.setValue(element.fechaCreacion);
-    this.formularioLey.get('fechaVigencia')!.setValue(element.fechaVigencia);
-    this.formularioLey.get('deroga')!.setValue('' + element.deroga);
-    this.formularioLey.get('observacion')!.setValue(element.observacion);
-    this.formularioLey.get('estado')!.setValue(element.estado);
+    this.formulario.get('url')!.setValue(element.url);
+    this.formulario.get('anexo')!.setValue(element.anexo);
+    this.formulario.get('fechaCreacion')!.setValue(element.fechaCreacion);
+    this.formulario.get('fechaVigencia')!.setValue(element.fechaVigencia);
+    this.formulario.get('deroga')!.setValue('' + element.deroga);
+    this.formulario.get('observacion')!.setValue(element.observacion);
+    this.formulario.get('estado')!.setValue(element.estado);
   }
 
   change(file: any): void {
@@ -502,8 +497,8 @@ export class ModalNormativaFormulario {
   }
 
   cancelar() {
-    this.formularioLey.reset();
-    this.crearFormularioLey();
+    this.formulario.reset();
+    this.crearformulario();
     this.editar = false;
   }
 

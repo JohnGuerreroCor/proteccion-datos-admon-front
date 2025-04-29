@@ -30,7 +30,19 @@ import {
   AutorizacionComponent,
   ModalAutorizacionFormulario,
 } from './components/autorizacion/autorizacion.component';
-import { ItemComponent } from './components/item/item.component';
+import {
+  ItemComponent,
+  ModalItemFormulario,
+} from './components/item/item.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import {
+  AutorizacionItemComponent,
+  ModalAutorizacionItemFormulario,
+} from './components/autorizacion-item/autorizacion-item.component';
+import {
+  AutorizacionModuloComponent,
+  ModalAutorizacionModuloFormulario,
+} from './components/autorizacion-modulo/autorizacion-modulo.component';
 
 registerLocaleData(localeEsCO, 'es-CO');
 
@@ -51,6 +63,11 @@ registerLocaleData(localeEsCO, 'es-CO');
     AutorizacionComponent,
     ModalAutorizacionFormulario,
     ItemComponent,
+    ModalItemFormulario,
+    AutorizacionItemComponent,
+    ModalAutorizacionItemFormulario,
+    AutorizacionModuloComponent,
+    ModalAutorizacionModuloFormulario,
   ],
   imports: [
     BrowserModule,
@@ -60,11 +77,15 @@ registerLocaleData(localeEsCO, 'es-CO');
     MaterialModules,
     FormsModule,
     ReactiveFormsModule,
+    AngularEditorModule,
   ],
   entryComponents: [
     ModalNormativaFormulario,
     ModalSeccionFormulario,
     ModalAutorizacionFormulario,
+    ModalItemFormulario,
+    ModalAutorizacionItemFormulario,
+    ModalAutorizacionModuloFormulario,
   ],
   providers: [
     DatePipe,

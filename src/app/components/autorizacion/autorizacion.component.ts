@@ -36,7 +36,7 @@ export class AutorizacionComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
   dataSource = new MatTableDataSource<Autorizacion>([]);
-  displayedColumns: string[] = ['index', 'titulo', 'normativa','version','fecha','opciones'];
+  displayedColumns: string[] = ['index', 'titulo', 'normativa','version','fecha','anexo','opciones'];
   listadoAutorizacion: Autorizacion[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 

@@ -3,11 +3,16 @@
     <div class="row ml-5 mr-5 mb-4">
       <div class="col-sm-10">
         <div
-          class="card-header-usco cursor-select p-1"
-          [routerLink]="['/inicio']"
+          class="card-header-usco cursor-select p-2"
+          [routerLink]="['/autorizacion']"
           routerLinkActive="router-link-active"
         >
-          <h4 class="font-usco-default font-weight-bold">Item</h4>
+          <h6
+            *ngIf="(autorizacion | json) != null"
+            class="font-usco-default font-weight-bold"
+          >
+            {{ autorizacion.titulo }}
+          </h6>
         </div>
       </div>
       <div class="col">
@@ -21,62 +26,12 @@
     </div>
     <div class="row ml-5 mr-5 mb-4">
       <div class="col">
-        <mat-accordion>
-          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="font-usco-vt font-weight-bold"
-                >Filtros de búsqueda</mat-panel-title
-              >
-            </mat-expansion-panel-header>
-            <div class="row text-center pl-4 pr-4">
-              <div class="col">
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field
-                      class="example-full-width"
-                      appearance="outline"
-                    >
-                      <input
-                        matInput
-                        type="text"
-                        (keyup)="filtrar($event)"
-                        [(ngModel)]="claves"
-                        placeholder="PALABRAS CLAVES"
-                      />
-                      <button
-                        matSuffix
-                        style="
-                          text-decoration: none;
-                          background: none;
-                          border: none;
-                        "
-                      >
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                      </button>
-                    </mat-form-field>
-                  </div>
-                  <div class="col-sm-2">
-                    <button class="btn btn-info" (click)="restaurar()">
-                      <i class="fa-solid fa-rotate-right"></i> Restaurar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-    </div>
-    <div class="row ml-5 mr-5 mb-4">
-      <div class="col">
         <div class="card rounded-2 p-0 shadow-sm">
           <div class="card-body">
             <div class="row">
               <div class="col">
                 <fieldset class="scheduler-border shadow-sm">
-                  <legend class="scheduler-border font-usco-vt">
-                    Formulario creación cuestionario
-                  </legend>
+                  <legend class="scheduler-border font-usco-vt">Items</legend>
                   <table
                     mat-table
                     [dataSource]="dataSource"
@@ -108,16 +63,23 @@
                         mat-cell
                         *matCellDef="let element"
                         class="font-sm-usco"
-                        style="width: 80%;"
+                        style="width: 80%"
                       >
-                        <div class="p-2" [innerHTML]="element.contenido" style="background-color: white;border:1px #ccc solid"></div>
+                        <div
+                          class="p-2"
+                          [innerHTML]="element.itemContenido"
+                          style="
+                            background-color: white;
+                            border: 1px #ccc solid;
+                          "
+                        ></div>
                       </td>
                     </ng-container>
                     <ng-container matColumnDef="opciones">
                       <th mat-header-cell *matHeaderCellDef>Opciones</th>
                       <td mat-cell *matCellDef="let element">
                         <button
-                          class="btn btn-info btn-sm mr-2"
+                          class="btn btn-info btn-sm m-2"
                           (click)="editarFormulario(element)"
                           #tooltip="matTooltip"
                           matTooltip="Editar"
@@ -126,7 +88,7 @@
                           <i class="fa-solid fa-pencil fa-xs"></i>
                         </button>
                         <button
-                          class="btn btn-danger btn-sm mr-2"
+                          class="btn btn-danger btn-sm m-2"
                           (click)="confirmarEliminado(element)"
                           #tooltip="matTooltip"
                           matTooltip="Borrar"
@@ -143,9 +105,73 @@
                     ></tr>
                   </table>
                   <mat-paginator
-                    [pageSizeOptions]="[10, 20, 30]"
+                    [pageSizeOptions]="[3, 6, 9]"
                     showFirstLastButtons
                   ></mat-paginator>
+                </fieldset>
+              </div>
+              <div class="col">
+                <fieldset class="scheduler-border shadow-sm">
+                  <legend class="scheduler-border font-usco-vt">
+                    Vista previa autorización
+                  </legend>
+                  <div
+                    style="
+                      border: 1px solid #cccccc;
+                      padding: 0;
+                      margin: 0;
+                      color: black;
+                    "
+                  >
+                    <img
+                      src="assets/header-usco.png"
+                      class="img-fluid d-block w-100"
+                      style="margin: 0"
+                    />
+                    <div class="ml-4 mr-4 pl-5 pr-5">
+                      <h6
+                        *ngIf="(autorizacion | json) != null"
+                        class="mt-2 mb-4 font-weight-bold text-center"
+                      >
+                        {{ autorizacion!.titulo }}
+                      </h6>
+                      <div
+                        *ngFor="let item of listadoAutorizacionItem"
+                        class="text-justify"
+                        style="font-size: 12px"
+                        [innerHTML]="item.itemContenido"
+                      ></div>
+                    </div>
+                    <div class="row ml-4 mr-4 pl-4 mb-3 pr-5">
+                      <div class="col text-justify">
+                        <mat-checkbox>
+                          <small style="font-size: 13px">
+                            Autorizo de manera voluntaria e informada a la
+                            Universidad Surcolombiana para tratar mis datos
+                            personales.</small
+                          ></mat-checkbox
+                        >
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="(autorizacion | json) != null"
+                      class="text-left ml-4 mb-3 pl-5"
+                    >
+                      <label class="file" *ngIf="autorizacion.anexo == 1">
+                        <input
+                          type="file"
+                          accept="application/pdf"
+                          aria-label="File browser example"
+                        />
+                        <span class="file-custom">Anexo</span>
+                      </label>
+                    </div>
+                    <img
+                      src="assets/footer-usco.png"
+                      class="img-fluid d-block w-100"
+                      style="margin: 0"
+                    />
+                  </div>
                 </fieldset>
               </div>
             </div>

@@ -1,0 +1,92 @@
+<h2 mat-dialog-title class="text-white bg-usco-vt-d6">
+  <i class="fa-solid fa-circle-info"></i> Formulario
+</h2>
+<mat-dialog-content class="pb-0">
+  <div class="row mt-4">
+    <div class="col pl-4 pr-4">
+      <form [formGroup]="formulario">
+        <div class="row mt-3">
+          <div class="col">
+            <fieldset class="scheduler-border shadow-sm">
+              <legend class="scheduler-border font-usco-vt">Sección</legend>
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Sección de la autorización</mat-label>
+                <mat-select formControlName="seccionCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoSeccion"
+                    [value]="item.codigo"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row mt-3 mb-2">
+          <div class="col text-justify" style="color: black">
+            <fieldset class="scheduler-border shadow-sm">
+              <legend class="scheduler-border font-usco-vt">
+                Editor de texto
+              </legend>
+              <angular-editor
+                formControlName="contenido"
+                [config]="config"
+              ></angular-editor>
+            </fieldset>
+          </div>
+          <div class="col">
+            <fieldset class="scheduler-border shadow-sm">
+              <legend class="scheduler-border font-usco-vt">
+                Vista previa del contenido
+              </legend>
+              <div
+                style="
+                  border: 1px solid #cccccc;
+                  padding: 0;
+                  margin: 0;
+                  color: black;
+                "
+              >
+                <img
+                  src="assets/header-usco.png"
+                  class="img-fluid d-block w-100"
+                  style="margin: 0"
+                />
+                <div class="ml-4 mr-4 pl-5 pr-5">
+                  <h6 class="mt-2 mb-4 font-weight-bold text-center"></h6>
+                  <div
+                    class="text-justify"
+                    style="font-size: 12px"
+                    [innerHTML]="this.formulario.get('contenido')!.value"
+                  ></div>
+                </div>
+                <img
+                  src="assets/footer-usco.png"
+                  class="img-fluid d-block w-100"
+                  style="margin: 0"
+                />
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="pb-3">
+  <button class="btn btn-warning mr-2" mat-dialog-close>
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button
+    class="btn btn-success"
+    [disabled]="!formulario.valid"
+    (click)="generar()"
+  >
+    <i class="fa-solid fa-floppy-disk"></i> Guardar
+  </button>
+</mat-dialog-actions>

@@ -7,9 +7,7 @@
           [routerLink]="['/inicio']"
           routerLinkActive="router-link-active"
         >
-          <h4 class="font-usco-default font-weight-bold">
-            Marco Normativo
-          </h4>
+          <h4 class="font-usco-default font-weight-bold">Marco Normativo</h4>
         </div>
       </div>
       <div class="col">
@@ -156,11 +154,16 @@
               <div class="col">
                 <fieldset class="scheduler-border shadow-sm">
                   <legend class="scheduler-border font-usco-vt">
-                    Formulario creación cuestionario
+                    Normas registradas
                   </legend>
                   <table
                     mat-table
-                    [dataSource]="dataSource  | filtroNormativaEntidadTipo : 'normativaEntidadTipoNombre' : entidad"
+                    [dataSource]="
+                      dataSource
+                        | filtroNormativaEntidadTipo
+                          : 'normativaEntidadTipoNombre'
+                          : entidad
+                    "
                     class="table table-hover shadow-sm"
                   >
                     <ng-container matColumnDef="index">
@@ -251,7 +254,7 @@
                         <button
                           *ngIf="!botonActivo(element)"
                           class="btn btn-danger btn-sm mr-2"
-                          (click)="eliminarNorma(element)"
+                          (click)="eliminar(element)"
                           #tooltip="matTooltip"
                           matTooltip="Borrar"
                           matTooltipPosition="above"
@@ -271,7 +274,6 @@
                         <button
                           *ngIf="element.deroga == 1"
                           class="btn btn-corhuila-p-1 btn-sm mr-2"
-                          (click)="registrarFormularioDeroga(element)"
                           #tooltip="matTooltip"
                           matTooltip="Derogar"
                           matTooltipPosition="above"

@@ -10,6 +10,8 @@ import { NormativaComponent } from './components/marco-normativo/normativa/norma
 import { SeccionComponent } from './components/seccion/seccion.component';
 import { AutorizacionComponent } from './components/autorizacion/autorizacion.component';
 import { ItemComponent } from './components/item/item.component';
+import { AutorizacionItemComponent } from './components/autorizacion-item/autorizacion-item.component';
+import { AutorizacionModuloComponent } from './components/autorizacion-modulo/autorizacion-modulo.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -39,8 +41,20 @@ const routes: Routes = [
   },
 
   {
-    path: 'item/:id',
+    path: 'autorizacion-item/:id',
+    component: AutorizacionItemComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'item',
     component: ItemComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'autorizacion-modulo',
+    component: AutorizacionModuloComponent,
     canActivate: [AuthGuard],
   },
 

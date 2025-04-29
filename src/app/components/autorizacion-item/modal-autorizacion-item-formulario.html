@@ -1,0 +1,78 @@
+<h2 mat-dialog-title class="text-white bg-usco-vt-d6">
+  <i class="fa-solid fa-circle-info"></i> Formulario
+</h2>
+<mat-dialog-content class="pb-0">
+  <div class="row mt-4">
+    <div class="col pl-4 pr-4">
+      <form [formGroup]="formulario">
+        <div class="row mt-3">
+          <div class="col">
+            <fieldset class="scheduler-border shadow-sm">
+              <legend class="scheduler-border font-usco-vt">
+                Filtrar por sección
+              </legend>
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Sección de la autorización</mat-label>
+                <mat-select formControlName="seccionCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoSeccion"
+                    [value]="item.codigo"
+                    (click)="obtenerItemsPorSeccion(item.codigo)"
+                    >{{item.nombre}}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+          </div>
+        </div>
+        <div class="row mt-3 mb-2">
+          <div class="col">
+            <fieldset class="scheduler-border shadow-sm">
+              <legend class="scheduler-border font-usco-vt">
+                Elegir item a asociar a la autorización
+              </legend>
+              <mat-form-field
+                class="example-full-width"
+                appearance="outline"
+                style="font-size: 12px"
+              >
+                <mat-label>Items</mat-label>
+                <mat-select formControlName="itemCodigo">
+                  <mat-option
+                    style="font-size: 12px"
+                    *ngFor="let item of listadoItemsPorSeccion"
+                    [value]="item.codigo"
+                  >
+                    <div
+                      class="text-justify"
+                      style="font-size: 12px"
+                      [innerHTML]="item.contenido"
+                    ></div>
+                    <hr
+                  /></mat-option>
+                </mat-select>
+              </mat-form-field>
+            </fieldset>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="pb-3">
+  <button class="btn btn-warning mr-2" mat-dialog-close>
+    <i class="fa-solid fa-xmark"></i> Cancelar
+  </button>
+  <button
+    class="btn btn-success"
+    [disabled]="!formulario.valid"
+    (click)="generar()"
+  >
+    <i class="fa-solid fa-floppy-disk"></i> Guardar
+  </button>
+</mat-dialog-actions>

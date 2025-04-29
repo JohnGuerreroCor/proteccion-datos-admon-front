@@ -1,3 +1,5 @@
+import { AutorizacionService } from './../../services/autorizacion.service';
+import { AutorizacionItemService } from './../../services/autorizacion-item.service';
 import { ItemService } from './../../services/item.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, Inject, ViewChild, OnInit } from '@angular/core';
@@ -18,27 +20,30 @@ import {
 } from '@angular/material/form-field';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Normativa } from 'src/app/models/normativa';
 import { Seccion } from 'src/app/models/seccion';
 import { SeccionService } from 'src/app/services/seccion.service';
 import { Item } from 'src/app/models/item';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Autorizacion } from 'src/app/models/autorizacion';
+import { AutorizacionItem } from 'src/app/models/autorizacion-item';
 
 @Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.css'],
+  selector: 'app-autorizacion-item',
+  templateUrl: './autorizacion-item.component.html',
+  styleUrls: ['./autorizacion-item.component.css'],
 })
-export class ItemComponent implements OnInit {
+export class AutorizacionItemComponent implements OnInit {
   step = 0;
   claves!: string;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto' as FloatLabelType);
-  dataSource = new MatTableDataSource<Item>([]);
+  dataSource = new MatTableDataSource<AutorizacionItem>([]);
   displayedColumns: string[] = ['index', 'seccion', 'contenido', 'opciones'];
-  listadoItem: Item[] = [];
+  listadoAutorizacionItem: AutorizacionItem[] = [];
+  autorizacion!: Autorizacion;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
 
   dialogRef!: MatDialogRef<any>;
@@ -47,20 +52,39 @@ export class ItemComponent implements OnInit {
     public dialog: MatDialog,
     public seccionService: SeccionService,
     public itemService: ItemService,
+    public autorizacionItemService: AutorizacionItemService,
+    public autorizacionService: AutorizacionService,
     private authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.activatedRoute.params.subscribe((params) => {
+      this.autorizacionService
+        .obtenerAutorizacion(params['id'])
+        .subscribe((data) => {
+          this.autorizacion = data;
+        });
+    });
+  }
 
   ngOnInit(): void {
     this.obtenerSeccion();
   }
 
   obtenerSeccion() {
-    this.itemService.obtenerListadoItem().subscribe((data) => {
-      this.listadoItem = data;
-      this.dataSource = new MatTableDataSource<Item>(data);
-      this.paginator.firstPage();
-      this.dataSource.paginator = this.paginator;
+    this.activatedRoute.params.subscribe((params) => {
+      this.autorizacionService
+        .obtenerAutorizacion(params['id'])
+        .subscribe((data) => {
+          this.autorizacionItemService
+            .obtenerItemPorAutorizacionItem(data.codigo)
+            .subscribe((data) => {
+              this.listadoAutorizacionItem = data;
+              this.dataSource = new MatTableDataSource<AutorizacionItem>(data);
+              this.paginator.firstPage();
+              this.dataSource.paginator = this.paginator;
+            });
+        });
     });
   }
 
@@ -70,9 +94,12 @@ export class ItemComponent implements OnInit {
   }
 
   registrarFormulario(): void {
-    this.dialogRef = this.dialog.open(ModalItemFormulario, {
+    this.dialogRef = this.dialog.open(ModalAutorizacionItemFormulario, {
       width: '80%',
       disableClose: true,
+      data: {
+        autorizacion: this.autorizacion.codigo, // <-- importante
+      },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -89,10 +116,10 @@ export class ItemComponent implements OnInit {
   }
 
   editarFormulario(element: any): void {
-    this.dialogRef = this.dialog.open(ModalItemFormulario, {
+    this.dialogRef = this.dialog.open(ModalAutorizacionItemFormulario, {
       width: '80%',
       disableClose: true,
-      data: { item: element },
+      data: { item: element, autorizacion: this.autorizacion.codigo },
     });
     this.dialogRef.afterClosed().subscribe(() => {
       this.onModalClosed();
@@ -107,7 +134,7 @@ export class ItemComponent implements OnInit {
     this.editarFormulario(element);
   }
 
-  confirmarEliminado(element: Seccion) {
+  confirmarEliminado(element: AutorizacionItem) {
     Swal.fire({
       title: '¿Está seguro de eliminar este elemento?',
       text: 'La siguiente operación será irreversible',
@@ -130,17 +157,19 @@ export class ItemComponent implements OnInit {
     });
   }
 
-  eliminar(seccion: Seccion) {
-    this.seccionService.eliminarSeccion(seccion).subscribe(
-      (data) => {
-        if (data > 0) {
-          this.obtenerSeccion();
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err) => this.fError(err)
-    );
+  eliminar(autorizacionItem: AutorizacionItem) {
+    this.autorizacionItemService
+      .eliminarAutorizacionItem(autorizacionItem)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            this.obtenerSeccion();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
   setStep(index: number) {
@@ -195,9 +224,9 @@ export class ItemComponent implements OnInit {
 //// MODAL
 
 @Component({
-  selector: 'modal-item-formulario',
-  templateUrl: 'modal-item-formulario.html',
-  styleUrls: ['./item.component.css'],
+  selector: 'modal-autorizacion-item-formulario',
+  templateUrl: 'modal-autorizacion-item-formulario.html',
+  styleUrls: ['./autorizacion-item.component.css'],
   providers: [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -205,71 +234,35 @@ export class ItemComponent implements OnInit {
     },
   ],
 })
-export class ModalItemFormulario {
+export class ModalAutorizacionItemFormulario {
   editar: boolean = false;
   formulario!: FormGroup;
   listadoSeccion: Seccion[] = [];
-  htmlContent = '';
-
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '8rem',
-    minHeight: '5rem',
-    placeholder: 'Copie o digite el contenido del documento aquí.',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Arial',
-    toolbarHiddenButtons: [
-      [
-        'strikeThrough',
-        'subscript',
-        'superscript',
-        'indent',
-        'justifyRight',
-        'outdent',
-        'heading',
-        'textColor',
-        'backgroundColor',
-        'customClasses',
-        'unlink',
-        'insertImage',
-        'insertVideo',
-        'insertHorizontalRule',
-        'toggleEditorMode',
-      ],
-    ],
-    customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText',
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-  };
+  listadoItemsPorSeccion: Item[] = [];
+  autorizacion!: Autorizacion;
 
   constructor(
-    public dialogRef: MatDialogRef<ModalItemFormulario>,
+    public dialogRef: MatDialogRef<ModalAutorizacionItemFormulario>,
     private formBuilder: FormBuilder,
     public seccionService: SeccionService,
     public itemService: ItemService,
+    public autorizacionService: AutorizacionService,
+    public autorizacionItemService: AutorizacionItemService,
     public dialog: MatDialog,
     private authService: AuthService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (this.authService.validacionToken()) {
       this.crearFormulario();
-      this.obtenerListadoSeccionTipo();
-      if (JSON.stringify(data) !== 'null') {
+      this.obtenerListadoSeccion();
+
+      // Asignar la autorización directamente del data
+      this.autorizacion = new Autorizacion();
+      this.autorizacion.codigo = data.autorizacion;
+
+      if (data.item) {
         this.precargar(data.item);
         console.log('Entra');
       } else {
@@ -281,9 +274,15 @@ export class ModalItemFormulario {
   private crearFormulario(): void {
     this.formulario = this.formBuilder.group({
       codigo: new FormControl(),
-      contenido: new FormControl('', Validators.required),
       seccionCodigo: new FormControl('', Validators.required),
+      itemCodigo: new FormControl('', Validators.required),
       estado: new FormControl(),
+    });
+  }
+
+  obtenerItemsPorSeccion(codigo: number) {
+    this.itemService.obtenerItemPorSeccion(codigo).subscribe((data) => {
+      this.listadoItemsPorSeccion = data;
     });
   }
 
@@ -291,72 +290,77 @@ export class ModalItemFormulario {
     this.dialogRef.close();
   }
 
-  obtenerListadoSeccionTipo() {
+  obtenerListadoSeccion() {
     this.seccionService.obtenerListadoSeccion().subscribe((data) => {
       this.listadoSeccion = data;
     });
   }
 
   generar(): void {
-    let item: Item = new Item();
-    item.codigo = this.formulario.get('codigo')!.value;
-    item.contenido = this.formulario.get('contenido')!.value;
-    item.seccionCodigo = this.formulario.get('seccionCodigo')!.value;
-    item.estado = this.formulario.get('estado')!.value;
+    let autorizacionItem: AutorizacionItem = new AutorizacionItem();
+    autorizacionItem.codigo = this.formulario.get('codigo')!.value;
+    autorizacionItem.autorizacionCodigo = this.autorizacion.codigo;
+    autorizacionItem.itemCodigo = this.formulario.get('itemCodigo')!.value;
+    autorizacionItem.estado = this.formulario.get('estado')!.value;
     if (!this.editar) {
-      this.registrar(item);
+      this.registrar(autorizacionItem);
     } else {
-      this.actualizar(item);
+      this.actualizar(autorizacionItem);
     }
   }
 
-  registrar(item: Item) {
-    this.itemService.insertarItem(item).subscribe(
-      (data) => {
-        if (data > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Registrado',
-            text: '¡Operación exitosa!',
-            showConfirmButton: false,
-            timer: 2500,
-          });
-          this.cancelar();
-          this.dialogRef.close();
-          this.crearFormulario();
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err) => this.fError(err)
-    );
+  registrar(autorizacionItem: AutorizacionItem) {
+    this.autorizacionItemService
+      .insertarAutorizacionItem(autorizacionItem)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Registrado',
+              text: '¡Operación exitosa!',
+              showConfirmButton: false,
+              timer: 2500,
+            });
+            this.cancelar();
+            this.dialogRef.close();
+            this.crearFormulario();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
-  actualizar(item: Item) {
-    this.itemService.actualizarItem(item).subscribe(
-      (data) => {
-        if (data > 0) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Actualizado',
-            text: '¡Operación exitosa!',
-            showConfirmButton: false,
-          });
-          this.dialogRef.close();
-          this.cancelar();
-        } else {
-          this.mensajeError();
-        }
-      },
-      (err) => this.fError(err)
-    );
+  actualizar(autorizacionItem: AutorizacionItem) {
+    this.autorizacionItemService
+      .actualizarAutorizacionItem(autorizacionItem)
+      .subscribe(
+        (data) => {
+          if (data > 0) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Actualizado',
+              text: '¡Operación exitosa!',
+              showConfirmButton: false,
+            });
+            this.dialogRef.close();
+            this.cancelar();
+          } else {
+            this.mensajeError();
+          }
+        },
+        (err) => this.fError(err)
+      );
   }
 
-  precargar(element: Item) {
+  precargar(element: AutorizacionItem) {
     this.editar = true;
     this.formulario.get('codigo')!.setValue(element.codigo);
-    this.formulario.get('contenido')!.setValue(element.contenido);
     this.formulario.get('seccionCodigo')!.setValue(element.seccionCodigo);
+    this.obtenerItemsPorSeccion(element.seccionCodigo);
+    this.formulario.get('itemCodigo')!.setValue(element.itemCodigo);
     this.formulario.get('estado')!.setValue(element.estado);
   }
 

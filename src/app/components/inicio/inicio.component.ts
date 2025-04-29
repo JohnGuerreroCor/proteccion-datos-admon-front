@@ -25,15 +25,33 @@ export class InicioComponent implements OnInit {
       info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
     },
     {
+      titulo: 'Items',
+      ruta: '/item',
+      icono: 'fa-solid fa-puzzle-piece fa-6x text-center color-icon',
+      info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
+    },
+    {
       titulo: 'Autorización',
       ruta: '/autorizacion',
       icono: 'fa-solid fa-file-signature fa-6x text-center color-icon',
       info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
     },
+    /* {
+      titulo: 'Autorización - Items',
+      ruta: '/autorizacion-item',
+      icono: 'fa-solid fa-diagram-project fa-6x text-center color-icon',
+      info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
+    }, */
     {
-      titulo: 'Items',
-      ruta: '/items',
-      icono: 'fa-solid fa-puzzle-piece fa-6x text-center color-icon',
+      titulo: 'Modulo',
+      ruta: '/autorizacion-modulo',
+      icono: 'fa-solid fa-computer fa-6x text-center color-icon',
+      info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
+    },
+    {
+      titulo: 'Reportes',
+      ruta: '/reporte',
+      icono: 'fa-solid fa-chart-pie fa-6x text-center color-icon',
       info: 'Permite parametrizar y gestionar normas internas y externas, lineamientos y requisitos según el marco normativo de la organización.',
     },
   ];

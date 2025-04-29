@@ -19,13 +19,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { NormativaEntidad } from 'src/app/models/normativa-entidad';
-import { MarcoNormativoService } from 'src/app/services/marco-normativo.service';
-import { NormativaEntidadTipo } from 'src/app/models/normativa-entidad-tipo';
-import { Normativa } from 'src/app/models/normativa';
-import { NormativaExpide } from 'src/app/models/norma-expide';
-import { NormativaMedio } from 'src/app/models/normativa-medio';
-import { NormativaTipo } from 'src/app/models/normativa-tipo';
 import { Seccion } from 'src/app/models/seccion';
 import { SeccionService } from 'src/app/services/seccion.service';
 import { SeccionTipo } from 'src/app/models/seccion-tipo';
@@ -106,7 +99,7 @@ export class SeccionComponent implements OnInit {
     this.obtenerSeccion();
   }
 
-  editarNormativa(element: Normativa) {
+  editar(element: Seccion) {
     this.editarFormulario(element);
   }
 
@@ -210,7 +203,7 @@ export class SeccionComponent implements OnInit {
 })
 export class ModalSeccionFormulario {
   editar: boolean = false;
-  formularioLey!: FormGroup;
+  formulario!: FormGroup;
   listadoSeccionTipo: SeccionTipo[] = [];
 
   constructor(
@@ -235,7 +228,7 @@ export class ModalSeccionFormulario {
   }
 
   private crearFormulario(): void {
-    this.formularioLey = this.formBuilder.group({
+    this.formulario = this.formBuilder.group({
       codigo: new FormControl(),
       nombre: new FormControl('', Validators.required),
       orden: new FormControl('', Validators.required),
@@ -256,12 +249,11 @@ export class ModalSeccionFormulario {
 
   generarSeccion(): void {
     let seccion: Seccion = new Seccion();
-    seccion.codigo = this.formularioLey.get('codigo')!.value;
-    seccion.nombre = this.formularioLey.get('nombre')!.value;
-    seccion.orden = this.formularioLey.get('orden')!.value;
-    seccion.seccionTipoCodigo =
-      this.formularioLey.get('seccionTipoCodigo')!.value;
-    seccion.estado = this.formularioLey.get('estado')!.value;
+    seccion.codigo = this.formulario.get('codigo')!.value;
+    seccion.nombre = this.formulario.get('nombre')!.value;
+    seccion.orden = this.formulario.get('orden')!.value;
+    seccion.seccionTipoCodigo = this.formulario.get('seccionTipoCodigo')!.value;
+    seccion.estado = this.formulario.get('estado')!.value;
     if (!this.editar) {
       this.registrarSeccion(seccion);
     } else {
@@ -313,17 +305,17 @@ export class ModalSeccionFormulario {
 
   editarSeccion(element: Seccion) {
     this.editar = true;
-    this.formularioLey.get('codigo')!.setValue(element.codigo);
-    this.formularioLey.get('nombre')!.setValue(element.nombre);
-    this.formularioLey.get('orden')!.setValue(element.orden);
-    this.formularioLey
+    this.formulario.get('codigo')!.setValue(element.codigo);
+    this.formulario.get('nombre')!.setValue(element.nombre);
+    this.formulario.get('orden')!.setValue(element.orden);
+    this.formulario
       .get('seccionTipoCodigo')!
       .setValue(element.seccionTipoCodigo);
-    this.formularioLey.get('estado')!.setValue(element.estado);
+    this.formulario.get('estado')!.setValue(element.estado);
   }
 
   cancelar() {
-    this.formularioLey.reset();
+    this.formulario.reset();
     this.crearFormulario();
     this.editar = false;
   }
